@@ -1,0 +1,59 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Sustainability Serverless Application
+
+Globals:
+  Function:
+    Timeout: 3
+    Runtime: nodejs10.x
+
+Resources:
+  SustainabilityApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: test
+      DefinitionUri: ./services/configurations/apiGateway.json
+
+  SoilCharacteristicsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: soilCharacteristics/
+      Handler: index.handler
+      Runtime: nodejs10.x
+      Layers:
+        - !Ref DependenciesLayer
+        - !Ref ServicesLayer
+
+  DependenciesLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: dependencies
+      Description: Dependencies for Sustainability Services
+      ContentUri: dependencies/
+      CompatibleRuntimes:
+        - nodejs10.x
+      RetentionPolicy: Retain
+
+  ServicesLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: services
+      Description: App builder, routing, services injection, configurations
+      ContentUri: services/
+      CompatibleRuntimes:
+        - nodejs10.x
+      RetentionPolicy: Retain
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  HelloWorldApi:
+    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
+  SoilCharacteristicsFunction:
+    Description: "Soil Characteristics Function ARN"
+    Value: !GetAtt SoilCharacteristicsFunction.Arn
+  SoilCharacteristicsFunctionIamRole:
+    Description: "Implicit IAM Role created for Soil Characteristics Function"
+    Value: !GetAtt SoilCharacteristicsFunction.Arn

@@ -1,0 +1,252 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Sustainability"
+  },
+  "paths": {
+    "/SoilCharacteristics": {
+      "post": {
+        "operationId": "retrieveSoilCharacteristics",
+        "summary": "Returns soil characteristics for passed fields.",
+        "tags": ["Soil Characteristics"],
+        "requestBody": {
+          "description": "Array of fieldIds.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minItems": 1,
+                  "maxItems": 1000
+                }
+              },
+              "examples": {
+                "fieldIds": {
+                  "value": [
+                    "83aa1495-7d7a-423e-bdc1-b0ebae5fa0df",
+                    "98a46721-c272-4581-bd46-781d8bb91053"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "response": {
+                    "value": {}
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "response": {
+                    "value": {}
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Invalid ID supplied.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "response": {
+                    "value": {}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:004443144924:function:soilCharacteristics/invocations",
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          },
+          "passthroughBehavior": "when_no_match",
+          "httpMethod": "POST",
+          "contentHandling": "CONVERT_TO_TEXT",
+          "type": "aws_proxy"
+        }
+      },
+      "put": {
+        "operationId": "cacheSoilCharacteristics",
+        "summary": "Update fields characteristics.",
+        "tags": ["Soil Characteristics"],
+        "requestBody": {
+          "description": "Array of fields.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/SoilCharacteristics"
+                }
+              },
+              "examples": {
+                "fieldIds": {
+                  "value": [
+                    {
+                      "fieldId": "83aa1495-7d7a-423e-bdc1-b0ebae5fa0df",
+                      "characteristics": [
+                        {
+                          "title": "Slope",
+                          "value": "50"
+                        }
+                      ]
+                    },
+                    {
+                      "fieldId": "98a46721-c272-4581-bd46-781d8bb91053",
+                      "characteristics": [
+                        {
+                          "title": "Slope Length",
+                          "value": "70"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "response": {
+                    "value": {}
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "response": {
+                    "value": {}
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Invalid ID supplied.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "response": {
+                    "value": {}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:004443144924:function:soilCharacteristics/invocations",
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          },
+          "passthroughBehavior": "when_no_match",
+          "httpMethod": "POST",
+          "contentHandling": "CONVERT_TO_TEXT",
+          "type": "aws_proxy"
+        }
+      },
+      "options": {
+        "tags": ["Soil Characteristics"],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          },
+          "400": {
+            "description": "400 response"
+          },
+          "500": {
+            "description": "500 response"
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST,PUT'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          },
+          "passthroughBehavior": "when_no_match",
+          "requestTemplates": {
+            "application/json": "{\"statusCode\": 200}"
+          },
+          "type": "mock"
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SoilCharacteristics": {
+        "type": "object",
+        "required": ["fieldId", "characteristics"],
+        "properties": {
+          "fieldId": {
+            "type": "string"
+          },
+          "characteristics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CharacteristicItem"
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "CharacteristicItem": {
+        "type": "object",
+        "required": ["title", "value"],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
