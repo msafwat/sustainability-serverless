@@ -15,10 +15,12 @@ module.exports = class CouchBaseApi {
     return new Promise((resolve, reject) => {
       this.bucket.upsert(key, data, (err, result) => {
         if (err) {
-          this.logger.log(`${key} Insert into Couchbase failed.`);
+          this.logger.logWarning(`Insert key (${key}) into Couchbase failed.`);
           reject(err);
         } else {
-          this.logger.log(`${key} Inserted into Couchbase successfully.`);
+          this.logger.logInfo(
+            `Insert key (${key}) into Couchbase successfully.`
+          );
           resolve(result);
         }
       });
@@ -29,10 +31,12 @@ module.exports = class CouchBaseApi {
     return new Promise((resolve, reject) => {
       this.bucket.replace(key, data, (err, result) => {
         if (err) {
-          this.logger.log(`${key} Replace into Couchbase failed.`);
+          this.logger.logWarning(`Replace key (${key}) into Couchbase failed.`);
           reject(err);
         } else {
-          this.logger.log(`${key} Replaced into Couchbase successfully.`);
+          this.logger.logInfo(
+            `Replace key (${key}) into Couchbase successfully.`
+          );
           resolve(result);
         }
       });
@@ -46,15 +50,23 @@ module.exports = class CouchBaseApi {
       this.bucket.get(key, (err, result) => {
         if (err) {
           if (err.code == couchbase.errors.keyNotFound) {
-            this.logger.log("Key does not exist");
+            this.logger.logWarning(`Key (${key}) does not exist`);
             reject(err);
           } else {
-            this.logger.log("Some other error occurred: %j", err);
+            this.logger.logWarning(
+              `Error occurred on retriving key (${key}) : ${JSON.stringify(
+                err
+              )}`
+            );
             reject(err);
           }
         } else {
-          this.logger.log("Retrieved document with value: %j", result.value);
-          this.logger.log("CAS is %j", result.cas);
+          this.logger.logInfo(
+            `Retrieved (${key}) document with value: ${JSON.stringify(
+              result.value
+            )}`
+          );
+          this.logger.logInfo(`CAS is ${result.cas}`);
           resolve(result.value);
         }
       });

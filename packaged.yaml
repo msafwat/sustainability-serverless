@@ -1,45 +1,40 @@
-AWSTemplateFormatVersion: "2010-09-09"
+AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Sustainability Serverless Application
-
 Globals:
   Function:
     Timeout: 3
     Runtime: nodejs10.x
-
 Resources:
   SustainabilityApi:
     Type: AWS::Serverless::Api
     Properties:
       StageName: test
-      DefinitionUri: ./services/configurations/apiGateway.swagger.json
-
+      DefinitionUri: s3://sus-package-test/2de72a6a35176fac9f721e85355b9e30
   SoilCharacteristicsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: soilCharacteristics/
+      CodeUri: s3://sus-package-test/5d0ec2aa722d2805c91fdcee0a24b1b5
       Handler: index.handler
       Runtime: nodejs10.x
       Layers:
-        - !Ref DependenciesLayer
-        - !Ref ServicesLayer
-
+      - Ref: DependenciesLayer
+      - Ref: ServicesLayer
   DependenciesLayer:
     Type: AWS::Serverless::LayerVersion
     Properties:
       LayerName: dependencies
       Description: Dependencies for Sustainability Services
-      ContentUri: dependencies/
+      ContentUri: s3://sus-package-test/161b681fa246bcdd34af6f0c8a487388
       CompatibleRuntimes:
-        - nodejs10.x
+      - nodejs10.x
       RetentionPolicy: Retain
-
   ServicesLayer:
     Type: AWS::Serverless::LayerVersion
     Properties:
       LayerName: services
       Description: App builder, routing, services injection, configurations
-      ContentUri: services/
+      ContentUri: s3://sus-package-test/af9020878bf5e7c74ea2037e4d8d4af1
       CompatibleRuntimes:
-        - nodejs10.x
+      - nodejs10.x
       RetentionPolicy: Retain

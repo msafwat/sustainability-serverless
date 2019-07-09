@@ -2,10 +2,10 @@
 
 module.exports = {
   couchbase: {
-    url: "",
-    username: "",
-    password: "",
-    bucket: "process.env.COUCHBASE_BUCKET"
+    url: "couchbase://rr-relax.landdb.com:8091/",
+    username: "ziad.ali",
+    password: "MxRBQ@72#wP8",
+    bucket: "sustainability-dev"
   },
   AWS: {
     destinationBucket: "process.env.AWS_DESTINATION_BUCKET",

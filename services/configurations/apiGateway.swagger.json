@@ -76,10 +76,7 @@
           "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:004443144924:function:soilCharacteristics/invocations",
           "responses": {
             "default": {
-              "statusCode": "200",
-              "responseParameters": {
-                "method.response.header.Access-Control-Allow-Origin": "'*'"
-              }
+              "statusCode": "200"
             }
           },
           "passthroughBehavior": "when_no_match",
@@ -172,47 +169,13 @@
           "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:004443144924:function:soilCharacteristics/invocations",
           "responses": {
             "default": {
-              "statusCode": "200",
-              "responseParameters": {
-                "method.response.header.Access-Control-Allow-Origin": "'*'"
-              }
+              "statusCode": "200"
             }
           },
           "passthroughBehavior": "when_no_match",
           "httpMethod": "POST",
           "contentHandling": "CONVERT_TO_TEXT",
           "type": "aws_proxy"
-        }
-      },
-      "options": {
-        "tags": ["Soil Characteristics"],
-        "responses": {
-          "200": {
-            "description": "200 response"
-          },
-          "400": {
-            "description": "400 response"
-          },
-          "500": {
-            "description": "500 response"
-          }
-        },
-        "x-amazon-apigateway-integration": {
-          "responses": {
-            "default": {
-              "statusCode": "200",
-              "responseParameters": {
-                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST,PUT'",
-                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
-                "method.response.header.Access-Control-Allow-Origin": "'*'"
-              }
-            }
-          },
-          "passthroughBehavior": "when_no_match",
-          "requestTemplates": {
-            "application/json": "{\"statusCode\": 200}"
-          },
-          "type": "mock"
         }
       }
     }

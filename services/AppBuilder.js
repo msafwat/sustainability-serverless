@@ -4,6 +4,7 @@ const Config = require("./configService/config");
 const Logger = require("./loggerService/Logger");
 const Router = require("./routerService/Router");
 const Res = require("./responseService/Response");
+const CouchBaseApi = require("./couchbaseService/CouchBaseApi");
 
 module.exports = class AppBuilder {
   constructor(event, context, dir) {
@@ -41,7 +42,14 @@ module.exports = class AppBuilder {
 
   addDynamoDBService() {}
 
-  addCouchbaseService() {}
+  addCouchbaseService() {
+    if (!this.services.couchbase) {
+      this.services.couchbase = new CouchBaseApi(
+        this.services.config.couchbase,
+        this.services.logger
+      );
+    }
+  }
 
   addAxiosService() {}
 
