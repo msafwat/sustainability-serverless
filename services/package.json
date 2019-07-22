@@ -1,0 +1,12 @@
+{
+  "name": "services",
+  "version": "1.0.0",
+  "description": "",
+  "main": "AppBuilder.js",
+  "scripts": {
+    "setup": "NODE_PATH=../dependencies/nodejs/node_modules",
+    "test": "../dependencies/nodejs/node_modules/mocha/bin/mocha tests/unit/"
+  },
+  "author": "Moustafa Safwat",
+  "license": "ISC"
+}

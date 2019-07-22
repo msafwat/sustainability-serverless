@@ -19,6 +19,14 @@ module.exports = class Logger {
   logWarning(message) {
     this.log(LogType.WARNING, message);
   }
+
+  logError(message) {
+    this.log(LogType.ERROR, message);
+  }
+
+  logException(err) {
+    this.logError(JSON.stringify(err));
+  }
 };
 
 const LogType = {
